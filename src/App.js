@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React , {useState,useEffect} from 'react';
 import './App.css';
+import Students from './Data.js';
+export default function App() {
+  const [searchStudent, setSearchStudent] = useState("");
+  const [studentArray, setStudentArray] = useState([]);
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchStudent(e.target.value);
 
-function App() {
+  }
+  const handleSelect = (ele) => {
+    setSearchStudent(ele)
+
+  }
+  useEffect(()=>{
+    setStudentArray(Students.filter((ele)=>ele.trim().toLowerCase().includes(searchStudent.trim().toLowerCase())))
+  },[searchStudent])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <div>
+      <form>
+        <input className='searchBar' placeholder='Search here...' onChange={handleChange} value={searchStudent}/>
+        <div className='StudentLists'>{studentArray.map((ele)=><div onClick={()=>handleSelect(ele)}>{ele}</div>)}</div>
+      </form>
     </div>
-  );
+    </>
+  )
 }
-
-export default App;
